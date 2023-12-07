@@ -11,6 +11,7 @@ import unittest
 from datetime import datetime
 from models.engine.file_storage import FileStorage
 
+
 class TestBaseModel(unittest.TestCase):
     def setUp(self):
         """Setup the unit tests"""
@@ -35,7 +36,6 @@ class TestBaseModel(unittest.TestCase):
         """Check if id is always universal unique"""
         alot_of_ids = [BaseModel().id for i in range(1000)]
         self.assertEqual(len(set(alot_of_ids)), 1000)
-
 
     def test_types(self):
         """Test the properties types"""
@@ -67,7 +67,7 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(returned_dict["__class__"], "BaseModel")
         self.assertIsInstance(returned_dict["created_at"], str)
         self.assertIsInstance(returned_dict["updated_at"], str)
-        self.assertEqual(len (self.obj22.to_dict()), 4)
+        self.assertEqual(len(self.obj22.to_dict()), 4)
         self.assertIsInstance(returned_dict, dict)
         self.assertDictEqual(self.obj33.to_dict(), self.obj33.to_dict())
 
@@ -83,7 +83,9 @@ class TestBaseModel(unittest.TestCase):
 
     def test_str(self):
         """Test the str method"""
-        str_rep = "[BaseModel] ({}) {}".format( self.obj1.id, self.obj1.__dict__)
+        format_str = (self.obj1.id, self.obj1.__dict__)
+        str_rep = "[BaseModel] ({}) {}".format(*format_str)
         self.assertEqual(str_rep, str(self.obj1))
-        str_rep = "[BaseModel] ({}) {}".format( self.obj2.id, self.obj2.__dict__)
+        format_str = (self.obj2.id, self.obj2.__dict__)
+        str_rep = "[BaseModel] ({}) {}".format(*format_str)
         self.assertEqual(str_rep, str(self.obj2))

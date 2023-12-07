@@ -34,7 +34,7 @@ class FileStorage:
         """save the objects into _object attribute"""
         objs = FileStorage.__objects
         objs_clone = {k: v.to_dict() for (k, v) in objs.items()}
-        FileStorage.__objects = objs_clone
+        objs = objs_clone
         with open(FileStorage.__file_path, "w") as f:
             json.dump(objs_clone, f, indent=4)
 
