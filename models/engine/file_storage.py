@@ -16,5 +16,6 @@ class FileStorage:
             json.dump.dump(objs_clone, f)
     def reload(self):
         with open(FileStorage.__file_path, "r") as f:
-            obj_clone = json.load.load(f)
+            objs_clone = json.load(f)
             objs = {k:BaseModel(v) for (k,v) in objs_clone.items()}
+            FileStorage.__objects = objs

@@ -10,7 +10,7 @@ class BaseModel:
             self.id = str(uuid4())
             self.created_at = datetime.today()
             self.updated_at = datetime.today()
-            models.storage.save(self)
+            models.storage.save()
         else:
             for key in kwargs.keys():
                 if key in ("created_at", "updated_at"):
