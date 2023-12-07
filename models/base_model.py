@@ -1,5 +1,6 @@
 from uuid import uuid4
 from datetime import datetime
+from file import storage
 
 class BaseModel:
     def __init__(self, *args, **kwargs):
@@ -8,6 +9,7 @@ class BaseModel:
             self.id = str(uuid4())
             self.created_at = datetime.today()
             self.updated_at = datetime.today()
+            storage.save(self)
         else:
             for key in kwargs.keys():
                 if key in ("created_at", "updated_at"):
@@ -21,6 +23,7 @@ class BaseModel:
 
     def save(self):
         self.updated_at = datetime.today()
+        storage.save()
 
     def to_dict(self):
         dict_clone = {**self.__dict__}
