@@ -17,4 +17,4 @@ class FileStorage:
     def reload(self):
         with open(FileStorage.__file_path, "r") as f:
             obj_clone = json.load.load(f)
-            objs = {k:BaseModel(v) for (k,v) in objs.items()}
+            objs = {k:BaseModel(v) for (k,v) in objs_clone.items()}
