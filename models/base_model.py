@@ -12,6 +12,7 @@ from uuid import uuid4
 from datetime import datetime
 
 
+
 class BaseModel:
     """
     The base class that other classes will inheret from
