@@ -2,11 +2,12 @@ from uuid import uuid4
 from datetime import datetime
 
 class BaseModel:
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """Public instance attributes"""
-        self.id = str(uuid4())
-        self.created_at = datetime.today()
-        self.updated_at = datetime.today()
+        if kwargs == {}:
+            self.id = str(uuid4())
+            self.created_at = datetime.today()
+            self.updated_at = datetime.today()
 
     def save(self):
         self.updated_at = datetime.today()
