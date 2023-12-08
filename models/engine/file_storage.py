@@ -14,7 +14,7 @@ from models.city import City
 from models.state import State
 from models.amenity import Amenity
 from models.place import Place
-# from models.review import Review
+from models.review import Review
 
 class FileStorage:
     """Serializes instances to a JSON file and
@@ -23,6 +23,15 @@ class FileStorage:
 
     __file_path = "/home/vagrant/AirBnB_clone/datebase.json"
     __objects = {}
+    types = {
+        "BaseModel": BaseModel,
+        "User": User,
+        "State": State,
+        "City": City,
+        "Amenity": Amenity,
+        "Place": Place,
+        "Review": Review
+    }
 
     def all(self):
         """Returns the dictionary __objects"""
@@ -47,8 +56,11 @@ class FileStorage:
         """Deserializes the JSON file to __objects"""
         try:
             with open(FileStorage.__file_path, "r") as f:
-                objs_clone = json.load(f)
-                objs = {k: BaseModel(**v) for (k, v) in objs_clone.items()}
+                file_objects = json.load(f).items()
+                objs = {}
+                for key, value in file_objects:
+                    class_name = value["__class__"]
+                    objs[key] = self.types[class_name](**value)
                 FileStorage.__objects = objs
         except Exception:
             return

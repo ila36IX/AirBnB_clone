@@ -12,7 +12,6 @@ from uuid import uuid4
 from datetime import datetime
 
 
-
 class BaseModel:
     """
     The base class that other classes will inheret from
@@ -48,10 +47,10 @@ class BaseModel:
         dict_clone = {**self.__dict__}
         dict_clone['created_at'] = dict_clone["created_at"].isoformat()
         dict_clone['updated_at'] = dict_clone['updated_at'].isoformat()
-        dict_clone["__class__"] = __class__.__name__
+        dict_clone["__class__"] = type(self).__name__
         return dict_clone
 
     def __str__(self):
         """Friendly string representaion of object"""
-        str_format = (__class__.__name__, self.id, self.__dict__)
+        str_format = (type(self).__name__, self.id, self.__dict__)
         return "[{}] ({}) {}".format(*str_format)
