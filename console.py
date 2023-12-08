@@ -62,7 +62,16 @@ class HBNBCommand(cmd.Cmd):
             print("** no instance found **")
         else:
             print(storage.all()[args[1]])
-    
+
+    def complete_show(self, text, line, begidx, endidx):
+        """Auto completion by providing available IDs"""
+        if line.startswith("show BaseModel "):
+            IDs = storage.all().keys()
+            completions = [arg for arg in IDs if arg.startswith(text)]
+            return completions
+        elif line.startswith("show "):
+            return ["BaseModel"]
+
     def do_destroy(self, line):
         """String representation of an instance based on the class name"""
         args = line.split()
@@ -78,6 +87,22 @@ class HBNBCommand(cmd.Cmd):
         else:
             del storage.all()[args[1]]
             storage.save()
+
+    def complete_destroy(self, text, line, begidx, endidx):
+        """Auto completion by providing available IDs"""
+        if line.startswith("destroy BaseModel "):
+            IDs = storage.all().keys()
+            completions = [arg for arg in IDs if arg.startswith(text)]
+            return completions
+        elif line.startswith("destroy "):
+            return ["BaseModel"]
+
+    def do_all(self, line):
+        """ Prints all string representation of all instances"""
+        if not line or line == "BaseModel":
+            instances =  storage.all().values()
+            instance_strings = [str(rep) for rep in instances]
+            print(instance_strings)
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()

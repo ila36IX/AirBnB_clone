@@ -1,9 +1,13 @@
 #!/usr/bin/python3
+
 """
+
 Implementation of Review class
+
 """
 
 from models.base_model import BaseModel
+
 
 class Review(BaseModel):
     """

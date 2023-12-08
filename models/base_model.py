@@ -24,7 +24,7 @@ class BaseModel:
     def __init__(self, *args, **kwargs):
         """Public instance attributes"""
         if kwargs == {}:
-            self.id = str(uuid4())
+            self.id = str(uuid4())[0:4]
             self.created_at = datetime.today()
             self.updated_at = datetime.today()
 
