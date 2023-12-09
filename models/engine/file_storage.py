@@ -21,7 +21,7 @@ class FileStorage:
     deserializes JSON file to instances
     """
 
-    __file_path = "/home/vagrant/AirBnB_clone/datebase.json"
+    __file_path = "datebase.json"
     __objects = {}
     types = {
         "BaseModel": BaseModel,
