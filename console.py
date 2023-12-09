@@ -46,7 +46,7 @@ class HBNBCommand(cmd.Cmd):
 
     def for_complet(self, text, line, command):
         """General function for auto completion.
-        It willl be used as blueprint for other complations
+        It will be used as blueprint for other complations
         """
         class_is_availible = False
         class_name = ""
@@ -57,7 +57,9 @@ class HBNBCommand(cmd.Cmd):
                 class_name = cls
 
         if class_is_availible:
-            IDs = [i for i in storage.all().keys() if i.startswith(class_name)]
+            keys = storage.all().keys()
+            l = len(class_name) + 1
+            IDs = [i[l:] for i in keys if i.startswith(class_name)]
             completions = [arg for arg in IDs if arg.startswith(text)]
             return completions
         elif line.startswith(f"{command}"):
@@ -68,7 +70,6 @@ class HBNBCommand(cmd.Cmd):
         if not line:
             print("** class name missing ** ")
         elif line in self.CLASSES:
-            # new_obj = BaseModel()
             new_obj = self.types[line]()
             print(new_obj.id)
             storage.save()
@@ -76,12 +77,9 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
 
     def complete_create(self, text, line, begidx, endidx):
+        """Auto completion for craete"""
         if line.startswith("create"):
             return [arg for arg in self.CLASSES if arg.startswith(text)]
-
-    def do_ll(self, line):
-        """It is overwhelming writing that long command"""
-        self.do_create("BaseModel")
 
     def do_reset(self, line):
         """Delete all the content of the db file"""
@@ -99,10 +97,10 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
         elif len(args) != 2:
             print("** instance id missing **")
-        elif args[1] not in storage.all().keys():
+        elif args[0]+"."+args[1] not in storage.all().keys():
             print("** no instance found **")
         else:
-            print(storage.all()[args[1]])
+            print(storage.all()[args[0]+"."+args[1]])
 
     def complete_show(self, text, line, begidx, endidx):
         """Auto completion by providing available IDs"""
@@ -118,10 +116,10 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
         elif len(args) != 2:
             print("** instance id missing **")
-        elif args[1] not in storage.all().keys():
+        elif args[0]+"."+args[1] not in storage.all().keys():
             print("** no instance found **")
         else:
-            del storage.all()[args[1]]
+            del storage.all()[args[0]+"."+args[1]]
             storage.save()
 
     def complete_destroy(self, text, line, begidx, endidx):
@@ -130,12 +128,24 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, line):
         """ Prints all string representation of all instances"""
-        if not line or line in self.CLASSES:
-            instances =  storage.all().values()
+        instances = storage.all().values()
+
+        if line in self.CLASSES:
+            all_obj = [i for i in instances if type(i).__name__ == line]
+            instance_strings = [str(rep) for rep in all_obj]
+            print(instance_strings)
+        elif not line:
             instance_strings = [str(rep) for rep in instances]
             print(instance_strings)
+        else:
+            print("** class doesn't exist **")
+
+    def complete_all(self, text, line, begidx, endidx):
+        """Auto completion by providing available classes"""
+        return self.for_complet(text, line, "all")
 
     def do_update(self, line):
+        """Update the a value by its key"""
         args = line.split()
 
         if not line:
@@ -144,19 +154,19 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
         elif len(args) == 1:
             print("** instance id missing **")
-        elif args[1] not in storage.all().keys():
+        elif args[0]+"."+args[1] not in storage.all().keys():
             print("** no instance found **")
         elif len(args) == 2:
             print("** attribute name missing **")
         elif len(args) == 3:
             print("** value missing **")
         else:
-            obj = storage.all()[args[1]]
+            obj = storage.all()[args[0]+"."+args[1]]
             attr = args[2]
             val = args[3]
             attr_type = type(getattr(obj, attr, None))
-            if attr_type is not None:
-                setattr(obj, attr,attr_type(val))
+            if attr_type is not type(None):
+                setattr(obj, attr, attr_type(val))
             else:
                 setattr(obj, attr, val)
             storage.save()
@@ -170,6 +180,23 @@ class HBNBCommand(cmd.Cmd):
               "<attribute name> \"<attribute value>\""
               "\nUpdates an instance based on the class "
               "name and id by adding or updating attribute")
+
+    def do_count(self, line):
+        """Count the number of instances of a class"""
+        if line in self.CLASSES:
+            keys = storage.all().keys()
+            available_classes = [i for i in keys if i.startswith(line)]
+            print(len(available_classes))
+
+    def parseline(self, line):
+        """Handle the case of attr.command()"""
+        ret = cmd.Cmd.parseline(self, line)
+        cls, command = ret[0], ret[1]
+        if cls in self.CLASSES and command == ".all()":
+            return ("all", cls, line)
+        if cls in self.CLASSES and command == ".count()":
+            return ("count", cls, line)
+        return ret
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()

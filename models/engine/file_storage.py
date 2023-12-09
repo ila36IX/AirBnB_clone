@@ -50,7 +50,8 @@ class FileStorage:
         objs_clone = {k: v.to_dict() for (k, v) in objs.items()}
         objs = objs_clone
         with open(FileStorage.__file_path, "w") as f:
-            json.dump(objs_clone, f, indent=4)
+            # json.dump(objs_clone, f, indent=4)
+            json.dump(objs_clone, f)
 
     def reload(self):
         """Deserializes the JSON file to __objects"""
