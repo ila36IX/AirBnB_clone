@@ -75,7 +75,16 @@ At the end of this project, you are expected to be able to explain to anyone, wi
 
 **Tasks**
 0. README, AUTHORS
+Write a README.md:
+description of the project
+description of the command interpreter:
+how to start it
+how to use it
+examples
+You should have an AUTHORS file at the root of your repository, listing all individuals having contributed content to the repository. For format, reference Docker’s AUTHORS page
+You should use branches and pull requests on GitHub - it will help you as team to organize your work
 1. Be pycodestyle compliant!
+Write beautiful code that passes the pycodestyle checks.
 2. Unittests
 3. BaseModel
 4. Create BaseModel from dictionary
@@ -85,3 +94,10 @@ At the end of this project, you are expected to be able to explain to anyone, wi
 8. First User
 9. More classes!
 10. Console 1.0
+11. All instance by class name
+12. Count instnaces
+13. Show
+14. Destroy
+15. Update
+16. Update from dictionary
+17. Unittest for the Console!
