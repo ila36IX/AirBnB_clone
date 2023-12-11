@@ -58,8 +58,8 @@ class HBNBCommand(cmd.Cmd):
 
         if class_is_availible:
             keys = storage.all().keys()
-            l = len(class_name) + 1
-            IDs = [i[l:] for i in keys if i.startswith(class_name)]
+            length = len(class_name) + 1
+            IDs = [i[length:] for i in keys if i.startswith(class_name)]
             completions = [arg for arg in IDs if arg.startswith(text)]
             return completions
         elif line.startswith(f"{command}"):
@@ -165,7 +165,7 @@ class HBNBCommand(cmd.Cmd):
             attr = args[2]
             val = args[3]
             attr_type = type(getattr(obj, attr, None))
-            if attr_type is not type(None):
+            if not isinstance(attr_type, None):
                 setattr(obj, attr, attr_type(val))
             else:
                 setattr(obj, attr, val)
@@ -176,7 +176,8 @@ class HBNBCommand(cmd.Cmd):
         return self.for_complet(text, line, "update")
 
     def help_update(self):
-        print("Usage: update <class name> <id> py " + \
+        """THe update usage help"""
+        print("Usage: update <class name> <id> py "
               "<attribute name> \"<attribute value>\""
               "\nUpdates an instance based on the class "
               "name and id by adding or updating attribute")
@@ -197,6 +198,7 @@ class HBNBCommand(cmd.Cmd):
         if cls in self.CLASSES and command == ".count()":
             return ("count", cls, line)
         return ret
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
