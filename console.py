@@ -3,6 +3,7 @@
 """
 
 The entry point of the command interpreter
+Trying to connnect
 
 """
 import cmd
