@@ -87,4 +87,28 @@
     font-size: 16px;
     margin-block: 14px;
 }
+@media screen and (max-width: 480px) {
+    .filters {
+        flex-direction: column;
+        height: auto;
+        width: 80%;
+        margin-inline: auto;
+    }
+    .filters button {
+        margin-inline: auto;
+        margin-block: 30px;
+        width: 50%;
+    }
+    .locations, 
+    .amenities {
+    border: none;
+        padding-bottom: 10px;
+    border-bottom: 1px solid #DDD; 
+        height: 100%;
+    width: 60%;
+    padding-left : 50px;
+    position: relative;
+    cursor: pointer;
+}
 
+}
